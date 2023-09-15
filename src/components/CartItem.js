@@ -1,7 +1,6 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { increase, decrease, removeFromCart} from "../store/cartSlice";
-import { useSelector } from "react-redux";
 
 const CartItem = ({item}) => {
 
@@ -29,7 +28,13 @@ const CartItem = ({item}) => {
         {/* amount */}
         <p className="amount">{amount}</p>
         {/* decrease amount */}
-        <button className="amount-btn" onClick={() => dispatch(decrease(item))}>
+        <button className="amount-btn" onClick={() => {
+          if(amount === 1){
+            dispatch(removeFromCart(item))
+          }else{
+            dispatch(decrease(item))
+          }
+        }}>
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
             <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
           </svg>

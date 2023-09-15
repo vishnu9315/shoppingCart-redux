@@ -20,21 +20,23 @@ const cartSlice = createSlice({
         },
         //so if we are decreasing the amount and its 1 then remove that item from the cart else keep decreasing the value
         decrease (state, action) {
-            let updatedCartList = [];
+            let updatedCartList = state.cartList.map((cartItem) => (
+                cartItem.id === action.payload.id ? cartItem = {...cartItem, amount: cartItem.amount - 1} : cartItem
+            ))
+            
+            return {...state, cartList: updatedCartList}
+            //to avoid repetation of code
             //if its 1 remve that item and update the cartList as Empty array
-            if(action.payload.amount === 1){
-                 updatedCartList = state.cartList.filter(
-                    (item) => item.id !== action.payload.id
-                  );
-                return {...state, cartList: updatedCartList, total: 0};
+            //let updatedList = []
+            // if(action.payload.amount === 1){
+            //      updatedCartList = state.cartList.filter(
+            //         (item) => item.id !== action.payload.id
+            //       );
+            //     return {...state, cartList: updatedCartList};
 
-            }else{
-                updatedCartList = state.cartList.map((cartItem) => (
-                    cartItem.id === action.payload.id ? cartItem = {...cartItem, amount: cartItem.amount - 1} : cartItem
-                ))
-                let total = state.total - action.payload.price;
-                return {...state, cartList: updatedCartList, total: total}
-            }
+            // }else{
+                
+            // }
         },
 
         removeFromCart (state, action){
